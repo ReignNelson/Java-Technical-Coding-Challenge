@@ -2,13 +2,11 @@ package com.challenge.taskmanager.controller;
 
 import com.challenge.taskmanager.entity.Task;
 import com.challenge.taskmanager.service.TaskService;
-import lombok.extern.flogger.Flogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Objects;
 
 @Controller
@@ -21,14 +19,21 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    @GetMapping("/tasks")
-    public String getTasks(Model model, String keyword) {
+    // display list of employees
+    @GetMapping("/")
+    public String viewHomePage(Model model) {
+        return getTasks(model, "","name", "asc");
+    }
 
+    @GetMapping("/tasks")
+    public String getTasks(Model model, String keyword, @RequestParam(required = false) String sortField, @RequestParam(required = false) String sortDir) {
         if(!Objects.equals(keyword, "")){
             model.addAttribute("tasks", taskService.getTaskByKeyword(keyword));
 
         }else{
-            model.addAttribute("tasks", taskService.getAllTasks());
+            model.addAttribute("tasks", taskService.getAllTasks(sortField, sortDir));
+            model.addAttribute("sortField", sortField);
+            model.addAttribute("sortDir", sortDir);
         }
         return "tasks";
     }
@@ -41,25 +46,26 @@ public class TaskController {
 
     }
     @PostMapping("/tasks")
-    public String saveTaskForm(@ModelAttribute("task") Task task) {
+    public String saveTaskForm(Model model, @ModelAttribute("task") Task task) {
 
          taskService.saveTask(task);
-         return "redirect:/tasks";
+         return getTasks(model, "","name", "asc");
 
     }
 
     @GetMapping("/tasks/complete/{id}")
-    public String updateTaskComplete(@PathVariable Long id,@ModelAttribute("task") Task task) {
+    public String updateTaskComplete(Model model, @PathVariable Long id,@ModelAttribute("task") Task task) {
         Task taskResult = taskService.getTaskById(id);
         taskResult.setComplete(!task.getComplete());
         taskService.saveTask(taskResult);
 
-    return "redirect:/tasks";
+    return getTasks(model, "", "name", "asc");
 
     }
     @GetMapping("/tasks/delete/{id}")
-    public String deleteTask(@PathVariable Long id){
+    public String deleteTask(Model model, @PathVariable Long id){
         taskService.deleteTask(id);
-        return "redirect:/tasks";
+        return getTasks(model, "", "name", "asc");
     }
 }
+

@@ -2,11 +2,10 @@ package com.challenge.taskmanager.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.time.chrono.ChronoLocalDate;
 
+@Getter
 @Entity
 @Table
 public class Task {
@@ -36,23 +35,6 @@ public class Task {
         this.complete = complete;
     }
 
-    public Long getId() {
-        return id;
-    }
-    public String getName() {
-        return name;
-    }
-    public Boolean getComplete() {
-        return complete;
-    }
-    public String getDescription() {
-        return description;
-    }
-
-    public LocalDate getDueDate() {
-        return dueDate;
-    }
-
     public void setComplete(Boolean complete) {
         this.complete = complete;
     }
@@ -72,12 +54,5 @@ public class Task {
         this.name = name;
     }
 
-//    public int compareTo(Task t) {
-//        if(this.dueDate.isBefore((ChronoLocalDate) t))
-//            return -1;
-//        else if(this.dueDate.isAfter((ChronoLocalDate) t))
-//            return 1;
-//        return 0;
-//     }
 }
 

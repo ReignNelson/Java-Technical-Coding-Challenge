@@ -15,17 +15,18 @@
                 <a th:href = "@{/tasks/new}" class="btn btn-primary btn-sm mb-3">Create Task</a>
             </div>
             <form method="get" th:action="@{/tasks}">
-                <input name="keyword" placeholder="Search task by name " size="50" th:value="${keyword}" type="text">
+                <input name="keyword" placeholder="Search task by description" size="50" th:value="${keyword}" type="text">
                 <button class="btn btn-info" type="submit">Search</button>
             </form>
+
         </div>
         <table class="table table-striped table-dark ">
             <thead>
                 <tr>
                     <th>Name</th>
                     <th>Description</th>
-                    <th>DueDate</th>
-                    <th>Complete</th>
+                    <th><a th:href="@{'/tasks' + '?sortField=dueDate&sortDir=asc'}">Due Date</a></th>
+                    <th><a th:href="@{'/tasks' + '?sortField=complete&sortDir=asc'}">Complete</a></th>
                     <th>Actions</th>
                 </tr>
             </thead>

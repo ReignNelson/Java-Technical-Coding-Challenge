@@ -8,7 +8,7 @@ import java.util.List;
 
 @Service
 public interface TaskService {
-    List<Task> getAllTasks();
+    List<Task> getAllTasks(String sortField, String sortDir);
     Task getTaskById(Long id);
     void deleteTask(Long id);
     void saveTask(Task task);
